@@ -1,6 +1,23 @@
-@use '../../scss/helper' as *;
+@use "../../scss/helper" as *;
 
 .widgets {
-    width: 30%;
-    background-color: rgb(224, 224, 224);
+  width: 25%;
+
+  .chart {
+    margin-bottom: 16px;
+    border: 1px solid $main-color;
+  }
+}
+
+.btn {
+  color: black !important;
+  border: 1px solid $main-color !important;
+  font-weight: 600 !important;
+  width: 100% !important;
+  background-color: $white-smoke !important;
+  margin-bottom: 16px !important;
+
+  &:hover {
+    background-color: $hover-color !important;
+  }
 }
