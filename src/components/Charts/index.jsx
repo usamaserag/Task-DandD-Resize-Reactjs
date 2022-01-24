@@ -9,19 +9,19 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useDrag } from "react-dnd";
-import { dataCharts } from "../../data";
+// import { dataCharts } from "../../data";
 
-const Charts = () => {
+const Charts = ({ data }) => {
   return (
     <div>
-      {dataCharts.map((item, index) => (
+      {data.map((item, index) => (
         <Chart data={item} id={index} key={index} />
       ))}
     </div>
   );
 };
 
-const Chart = ({ data, id }) => {
+export const Chart = ({ data, id }) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "chart",
     item: { id: id },

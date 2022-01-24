@@ -4,7 +4,7 @@ import Charts from "../Charts";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 
-const Widgets = ({item}) => {
+const Widgets = ({ item, data }) => {
   return (
     <div className="widgets">
       <Button
@@ -15,7 +15,7 @@ const Widgets = ({item}) => {
         New Widget
       </Button>
       <div className="widgets__wrapper">
-        <Charts item={item} />
+        <Charts item={item} data={data} />
       </div>
     </div>
   );

@@ -1,12 +1,12 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./styles.scss";
 import { useDrop } from "react-dnd";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
-import { dataCharts } from "../../data";
+import { Chart } from "../Charts";
 
-const Drop = () => {
-  const [dropItems, setDropItems] = useState([])
-  const [{isOver}, drop] = useDrop(() => ({
+const Drop = ({ data }) => {
+  const [dropItems, setDropItems] = useState([]);
+  const [{ isOver }, drop] = useDrop(() => ({
     accept: "chart",
     drop: (item) => addChartToDrop(item.id),
     collect: (monitor) => ({
@@ -15,16 +15,23 @@ const Drop = () => {
   }));
 
   const addChartToDrop = (id) => {
-    const dropItem = dataCharts[id];
-    console.log(dropItem);
+    const dropItem = data[id];
     setDropItems([dropItem]);
   };
   return (
     <div className="drop">
       <h2 className="title">Drag a widget into an open Dashboard slot</h2>
       <div className="drop__add">
-        <div className="drop__add__item" ref={drop} style={{border: isOver ? '1px solid green' : ''}}>
-          <AddCircleOutlinedIcon className="icon-add" />
+        <div
+          className="drop__add__item"
+          ref={drop}
+          style={{ border: isOver ? "1px solid green" : "" }}
+        >
+          {!isOver ? (
+            dropItems.map((item, i) => <Chart data={item} key={i} />)
+          ) : (
+            <AddCircleOutlinedIcon className="icon-add" />
+          )}
         </div>
         <div className="drop__add__item">
           <AddCircleOutlinedIcon className="icon-add" />
