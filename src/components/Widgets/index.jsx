@@ -1,23 +1,21 @@
 import React from "react";
 import "./styles.scss";
-import ChartLine from "../ChartLine";
-import ChartBar from "../ChartBar";
+import Charts from "../Charts";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 
-const Widgets = () => {
+const Widgets = ({item}) => {
   return (
     <div className="widgets">
       <Button
-        variant="outlined"
+        disabled
         startIcon={<AddIcon style={{ fontWeight: "bold" }} />}
         className="btn"
       >
         New Widget
       </Button>
       <div className="widgets__wrapper">
-        <ChartLine />
-        <ChartBar />
+        <Charts item={item} />
       </div>
     </div>
   );

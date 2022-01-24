@@ -1,0 +1,24 @@
+@use '../../scss/helper' as *;
+
+.drop {
+    width: 100%;
+    margin-left: 16px;
+
+    &__add {
+        @include grid(2, 20px);
+        height: 240px;
+        margin-top: 16px;
+    }
+
+    &__add__item {
+        position: relative;
+        @include flex(center, center);
+        border: 1px solid $main-color ;
+        background-color: $hover-color;
+
+        .icon-add {
+            color: $main-color !important;
+            font-size: 40px !important;
+        }
+    }
+}

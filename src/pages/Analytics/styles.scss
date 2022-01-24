@@ -4,16 +4,10 @@
   margin: 0 auto;
   max-width: 1224px;
 
-  &__title {
-    margin-right: 16px;
-    font-weight: 600;
-    font-size: 18px;
-
-    &__container {
+    &__title__container {
       @include flex(center);
       padding: 16px 0;
     }
-  }
 
   &__container {
     border-top: 1px solid #8d979777;
