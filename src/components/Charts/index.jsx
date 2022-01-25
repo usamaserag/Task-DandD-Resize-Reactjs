@@ -18,7 +18,7 @@ export const Chart = ({ data, id }) => {
     type: "chart",
     item: { id: id },
     collect: (monitor) => ({
-      opacity: monitor.isDragging() ? 0.4 : 1,
+      opacity: monitor.isDragging() ? 0.3 : 1,
     }),
   }));
   return (

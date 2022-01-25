@@ -17,7 +17,7 @@ const DropTarget = (data) => {
 
   const [post, setPost] = useState(false);
 
-  const [size, setSize] = useState({width: 300 , height: 240 })
+  const [size, setSize] = useState({ width: 300, height: 240 });
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "chart",
@@ -35,12 +35,12 @@ const DropTarget = (data) => {
 
   return (
     <div>
-      <div className="drop__add__box" ref={drop}>
+      <div className={isOver ? "droping" : ""} ref={drop}>
         <Resizable
           style={style}
           defaultSize={{
-            width: 300,
-            height: 240,
+            // width: 300,
+            height: 180,
           }}
           onResizeStop={(e, direction, ref, d) => {
             setSize({
@@ -67,9 +67,13 @@ const Drop = ({ data }) => {
     <div className="drop">
       <h2 className="title">Drag a widget into an open Dashboard slot</h2>
       <div className="drop__add">
-        {[1, 2, 3].map((index) => {
+        {[1, 2].map((index) => {
           return <DropTarget data={data} key={index} />;
         })}
+      </div>
+      <div className="btns-container">
+        <button className="back-btn">Back</button>
+        <button className="submit-btn">Finish</button>
       </div>
     </div>
   );

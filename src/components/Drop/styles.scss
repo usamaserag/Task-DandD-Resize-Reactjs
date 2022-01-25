@@ -3,14 +3,11 @@
 .drop {
   width: 100%;
   margin-left: 16px;
+  position: relative;
 
   &__add {
-    @include grid(3, 20px);
+    @include grid(2, 20px);
     margin-top: 16px;
-
-    &__box {
-      height: 240px;
-    }
   }
 
   &__add__item {
@@ -27,4 +24,45 @@
       font-size: 40px !important;
     }
   }
+  .btns-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    .submit-btn {
+      color: white;
+      background-color: rgb(90, 152, 247);
+      border: none;
+      border-radius: $border-radius;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      font-family: $font-family;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: rgb(135, 181, 250);
+      }
+    }
+
+    .back-btn {
+      color: white;
+      background-color: rgb(179, 181, 184);
+      border: none;
+      border-radius: $border-radius;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: not-allowed;
+      font-family: $font-family;
+      margin-right: 8px;
+    }
+  }
+}
+.droping {
+  border: 2px solid rgb(135, 181, 250);
+  opacity: 0.5;
 }
