@@ -12,10 +12,12 @@ const style = {
   border: "solid 1px #ddd",
 };
 
-const Drop = ({ data }) => {
-  const [dropItems, setDropItems] = useState([]);
+const DropTarget = (data) => {
+  const [dropItem, setDropItem] = useState();
 
   const [post, setPost] = useState(false);
+
+  const [size, setSize] = useState({width: 300 , height: 240 })
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "chart",
@@ -26,34 +28,48 @@ const Drop = ({ data }) => {
   }));
 
   const addChartToDrop = (id) => {
-    const dropItem = data[id];
-    setDropItems([dropItem]);
+    const dropItem = data.data[id];
+    setDropItem(dropItem);
     setPost(!post);
   };
+
+  return (
+    <div>
+      <div className="drop__add__box" ref={drop}>
+        <Resizable
+          style={style}
+          defaultSize={{
+            width: 300,
+            height: 240,
+          }}
+          onResizeStop={(e, direction, ref, d) => {
+            setSize({
+              width: size.width + d.width,
+              height: size.height + d.height,
+            });
+          }}
+        >
+          {post ? (
+            <Chart data={dropItem} />
+          ) : (
+            <div className="drop__add__item">
+              <AddCircleOutlinedIcon className="icon-add" />
+            </div>
+          )}
+        </Resizable>
+      </div>
+    </div>
+  );
+};
+
+const Drop = ({ data }) => {
   return (
     <div className="drop">
       <h2 className="title">Drag a widget into an open Dashboard slot</h2>
       <div className="drop__add">
-        <div className="drop__add__box" ref={drop}>
-          <Resizable
-            style={style}
-            defaultSize={{
-              // width: 400,
-              height: 240,
-            }}
-          >
-            {post ? (
-              dropItems.map((item, i) => <Chart data={item} key={i} />)
-            ) : (
-              <div className="drop__add__item">
-                <AddCircleOutlinedIcon className="icon-add" />
-              </div>
-            )}
-          </Resizable>
-        </div>
-        <div className="drop__add__item">
-          <AddCircleOutlinedIcon className="icon-add" />
-        </div>
+        {[1, 2, 3].map((index) => {
+          return <DropTarget data={data} key={index} />;
+        })}
       </div>
     </div>
   );
