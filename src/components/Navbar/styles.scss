@@ -10,6 +10,7 @@
     max-width: 1224px;
     height: 100%;
     margin: 0 auto;
+    padding: 0 16px;
     @include flex(center, space-between);
 
     .logo {
@@ -22,7 +23,6 @@
     @include flex(center);
 
     &__item {
-      color: $text-color;
       cursor: pointer;
     }
 

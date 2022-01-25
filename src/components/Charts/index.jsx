@@ -1,13 +1,7 @@
 import React from "react";
-import {
-  AreaChart,
-  Area,
-  // XAxis,
-  // YAxis,
-  CartesianGrid,
-  ResponsiveContainer,
-} from "recharts";
+import { AreaChart, Area, CartesianGrid, ResponsiveContainer } from "recharts";
 import { useDrag } from "react-dnd";
+import "./styles.scss";
 
 const Charts = ({ data }) => {
   return (
@@ -20,55 +14,42 @@ const Charts = ({ data }) => {
 };
 
 export const Chart = ({ data, id }) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
+  const [{ opacity }, drag] = useDrag(() => ({
     type: "chart",
     item: { id: id },
     collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
+      opacity: monitor.isDragging() ? 0.4 : 1,
     }),
   }));
   return (
-    <ResponsiveContainer
-      width="100%"
-      aspect={2}
-      ref={drag}
-      opacity={isDragging ? "0.5" : "1"}
-    >
-      <AreaChart
-        data={data}
-        // margin={{
-        //   top: 10,
-        //   right: 30,
-        //   left: 0,
-        //   bottom: 0,
-        // }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        {/* <XAxis /> */}
-        {/* <YAxis /> */}
-        <Area
-          type="monotone"
-          dataKey="uv"
-          stackId="1"
-          stroke="#8884d8"
-          fill="#8884d8"
-        />
-        <Area
-          type="monotone"
-          dataKey="pv"
-          stackId="1"
-          stroke="#82ca9d"
-          fill="#82ca9d"
-        />
-        <Area
-          type="monotone"
-          dataKey="amt"
-          stackId="1"
-          stroke="#ffc658"
-          fill="#ffc658"
-        />
-      </AreaChart>
-    </ResponsiveContainer>
+    <div style={{ opacity }} className="chart__container">
+      <ResponsiveContainer width="100%" aspect={2} ref={drag}>
+        <AreaChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <Area
+            type="monotone"
+            dataKey="uv"
+            stackId="1"
+            stroke="#8884d8"
+            fill="#8884d8"
+          />
+          <Area
+            type="monotone"
+            dataKey="pv"
+            stackId="1"
+            stroke="#82ca9d"
+            fill="#82ca9d"
+          />
+          <Area
+            type="monotone"
+            dataKey="amt"
+            stackId="1"
+            stroke="#ffc658"
+            fill="#ffc658"
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 

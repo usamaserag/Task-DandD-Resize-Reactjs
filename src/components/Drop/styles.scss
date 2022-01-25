@@ -7,10 +7,7 @@
   &__add {
     @include grid(2, 20px);
     margin-top: 16px;
-
-    &__box {
-        height: 240px
-    }
+    height: 240px;
   }
 
   &__add__item {
@@ -20,14 +17,11 @@
     background-color: $hover-color;
     height: 100%;
     width: 100%;
+    overflow: hidden;
 
     .icon-add {
       color: $main-color !important;
       font-size: 40px !important;
     }
   }
-}
-.droping {
-    opacity: 0.3;
-    border: 1px solid green;
 }

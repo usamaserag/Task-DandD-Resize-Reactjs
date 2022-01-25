@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.scss";
 import Avatar from "@mui/material/Avatar";
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const Navbar = () => {
   return (

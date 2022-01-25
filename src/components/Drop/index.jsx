@@ -34,11 +34,11 @@ const Drop = ({ data }) => {
     <div className="drop">
       <h2 className="title">Drag a widget into an open Dashboard slot</h2>
       <div className="drop__add">
-        <div className={`drop__add__box ${isOver && "droping"}`} ref={drop}>
+        <div className="drop__add__box" ref={drop}>
           <Resizable
             style={style}
             defaultSize={{
-              width: 400,
+              // width: 400,
               height: 240,
             }}
           >
