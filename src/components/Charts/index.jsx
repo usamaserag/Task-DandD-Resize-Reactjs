@@ -23,7 +23,7 @@ export const Chart = ({ data, id }) => {
   }));
   return (
     <div style={{ opacity }} className="chart__container">
-      <ResponsiveContainer width="100%" aspect={2} ref={drag}>
+      <ResponsiveContainer width="100%" aspect={2.5} ref={drag}>
         <AreaChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
           <Area

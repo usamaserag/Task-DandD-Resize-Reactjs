@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.scss";
 import { useDrop } from "react-dnd";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
@@ -13,7 +13,7 @@ const style = {
 };
 
 const DropTarget = (data) => {
-  const [dropItem, setDropItem] = useState();
+  const [dropItem, setDropItem] = useState([]);
 
   const [post, setPost] = useState(false);
 
@@ -28,10 +28,19 @@ const DropTarget = (data) => {
   }));
 
   const addChartToDrop = (id) => {
-    const dropItem = data.data[id];
+    const dropItem = [...data.data[id]];
     setDropItem(dropItem);
     setPost(!post);
+    localStorage.setItem("items", JSON.stringify(dropItem));
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("items") !== null) {
+      const postInLocalStorage = JSON.parse(localStorage.getItem("items"));
+      setDropItem(postInLocalStorage);
+      setPost(true);
+    }
+  }, []);
 
   return (
     <div>
