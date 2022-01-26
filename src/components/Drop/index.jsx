@@ -98,32 +98,46 @@ const Drop = ({ data }) => {
   const onSave = () => {
     localStorage.setItem("items", JSON.stringify(droppedItems));
     localStorage.setItem("boxSizes", JSON.stringify(boxSizes));
+    // eslint-disable-next-line
+    location.reload(true);
+  };
+
+  const resetData = () => {
+    window.localStorage.clear();
+    // eslint-disable-next-line
+    location.reload(true);
   };
 
   return (
     <div className="drop">
       <div>
-      <h2 className="title">Drag a widget into an open Dashboard slot</h2>
-      <div className="drop__add">
-        {numberOfDrops.map((index) => {
-          return (
-            <DropTarget
-              data={data}
-              key={index}
-              location={index}
-              onDrop={onDrop}
-              onResize={onResize}
-            />
-          );
-        })}
-      </div>
+        <h2 className="title">Drag a widget into an open Dashboard slot</h2>
+        <div className="drop__add">
+          {numberOfDrops.map((index) => {
+            return (
+              <DropTarget
+                data={data}
+                key={index}
+                location={index}
+                onDrop={onDrop}
+                onResize={onResize}
+              />
+            );
+          })}
+        </div>
       </div>
 
       <div className="btns-container">
-        <button className="back-btn">Back</button>
-        <button className="submit-btn" onClick={onSave}>
-          Finish
-        </button>
+        <button className="btn back-btn">Back</button>
+        {localStorage.getItem("items") || localStorage.getItem("boxSizes") ? (
+          <button className="btn reset-btn" onClick={resetData}>
+            Reset
+          </button>
+        ) : (
+          <button className="btn submit-btn" onClick={onSave}>
+            Finish
+          </button>
+        )}
       </div>
     </div>
   );

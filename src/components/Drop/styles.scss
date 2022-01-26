@@ -3,7 +3,6 @@
 .drop {
   width: 100%;
   margin-left: 16px;
-  // position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -28,13 +27,11 @@
     }
   }
   .btns-container {
-    // position: absolute;
-    // bottom: 0;
-    // right: 0;
-
-    .submit-btn {
+    display: flex;
+    width: fit-content;
+    align-self: flex-end;
+    .btn {
       color: white;
-      background-color: rgb(90, 152, 247);
       border: none;
       border-radius: $border-radius;
       padding: 10px 24px;
@@ -44,23 +41,27 @@
       cursor: pointer;
       font-family: $font-family;
       transition: background-color 0.3s ease;
+    }
+
+    .submit-btn {
+      background-color: rgb(90, 152, 247);
 
       &:hover {
         background-color: rgb(135, 181, 250);
       }
     }
 
+    .reset-btn {
+      background-color: rgb(77, 207, 60);
+
+      &:hover {
+        background-color: rgb(90, 247, 70);
+      }
+    }
+
     .back-btn {
-      color: white;
       background-color: rgb(179, 181, 184);
-      border: none;
-      border-radius: $border-radius;
-      padding: 10px 24px;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 1px;
       cursor: not-allowed;
-      font-family: $font-family;
       margin-right: 8px;
     }
   }
