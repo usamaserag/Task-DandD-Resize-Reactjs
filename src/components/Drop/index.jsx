@@ -11,13 +11,14 @@ const style = {
   justifyContent: "center",
   border: "solid 1px #ddd",
 };
+const numberOfDrops = [1, 2];
 
-const DropTarget = (data) => {
+const DropTarget = ({ data, location, onDrop, onResize }) => {
   const [dropItem, setDropItem] = useState([]);
 
   const [post, setPost] = useState(false);
 
-  const [size, setSize] = useState({ width: 300, height: 240 });
+  const [size, setSize] = useState({ width: 300, height: 180 });
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "chart",
@@ -28,17 +29,22 @@ const DropTarget = (data) => {
   }));
 
   const addChartToDrop = (id) => {
-    const dropItem = [...data.data[id]];
+    const dropItem = [...data[id]];
     setDropItem(dropItem);
     setPost(!post);
-    localStorage.setItem("items", JSON.stringify(dropItem));
+    onDrop(location, dropItem);
   };
 
   useEffect(() => {
     if (localStorage.getItem("items") !== null) {
-      const postInLocalStorage = JSON.parse(localStorage.getItem("items"));
+      const postInLocalStorage = JSON.parse(localStorage.getItem("items"))?.[
+        location
+      ];
       setDropItem(postInLocalStorage);
       setPost(true);
+
+      const boxSize = JSON.parse(localStorage.getItem("boxSizes"))?.[location];
+      setSize(boxSize);
     }
   }, []);
 
@@ -48,14 +54,17 @@ const DropTarget = (data) => {
         <Resizable
           style={style}
           defaultSize={{
-            // width: 300,
+            width: 300,
             height: 180,
           }}
+          size={size}
           onResizeStop={(e, direction, ref, d) => {
-            setSize({
+            const newSize = {
               width: size.width + d.width,
               height: size.height + d.height,
-            });
+            };
+            setSize(newSize);
+            onResize(location, newSize);
           }}
         >
           {post ? (
@@ -72,17 +81,46 @@ const DropTarget = (data) => {
 };
 
 const Drop = ({ data }) => {
+  const [droppedItems, setDroppedItems] = useState({});
+  const [boxSizes, setBoxSizes] = useState({});
+
+  const onDrop = (id, item) => {
+    const newDroppedItem = { [`${id}`]: item };
+    setDroppedItems((prevState) => ({ ...prevState, ...newDroppedItem }));
+  };
+
+  const onResize = (id, size) => {
+    const newBoxSize = { [`${id}`]: size };
+
+    setBoxSizes((prevState) => ({ ...prevState, ...newBoxSize }));
+  };
+
+  const onSave = () => {
+    localStorage.setItem("items", JSON.stringify(droppedItems));
+    localStorage.setItem("boxSizes", JSON.stringify(boxSizes));
+  };
+
   return (
     <div className="drop">
       <h2 className="title">Drag a widget into an open Dashboard slot</h2>
       <div className="drop__add">
-        {[1, 2].map((index) => {
-          return <DropTarget data={data} key={index} />;
+        {numberOfDrops.map((index) => {
+          return (
+            <DropTarget
+              data={data}
+              key={index}
+              location={index}
+              onDrop={onDrop}
+              onResize={onResize}
+            />
+          );
         })}
       </div>
       <div className="btns-container">
         <button className="back-btn">Back</button>
-        <button className="submit-btn">Finish</button>
+        <button className="submit-btn" onClick={onSave}>
+          Finish
+        </button>
       </div>
     </div>
   );
