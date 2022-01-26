@@ -3,6 +3,14 @@
 .widgets {
   width: 30%;
 
+  &__wrapper {
+    height: 400px;
+
+    .chart__container {
+      height: 100px;
+    }
+  }
+
   .chart {
     margin-bottom: 16px;
     border: 1px solid $main-color;

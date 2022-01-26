@@ -3,7 +3,10 @@
 .drop {
   width: 100%;
   margin-left: 16px;
-  position: relative;
+  // position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &__add {
     @include grid(2, 20px);
@@ -25,9 +28,9 @@
     }
   }
   .btns-container {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+    // position: absolute;
+    // bottom: 0;
+    // right: 0;
 
     .submit-btn {
       color: white;
