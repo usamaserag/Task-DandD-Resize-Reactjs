@@ -13,10 +13,10 @@ const style = {
 };
 const numberOfDrops = [1, 2];
 
-const DropTarget = ({ data, location, onDrop, onResize }) => {
+const DropTarget = ({ data, location, onDrop, onResize, post, setPost }) => {
   const [dropItem, setDropItem] = useState([]);
 
-  const [post, setPost] = useState(false);
+
 
   const [size, setSize] = useState({ width: 400, height: 180 });
 
@@ -46,7 +46,7 @@ const DropTarget = ({ data, location, onDrop, onResize }) => {
       const boxSize = JSON.parse(localStorage.getItem("boxSizes"))?.[location];
       setSize(boxSize);
     }
-  }, []);
+  }, [location, setPost]);
 
   return (
     <div>
@@ -83,6 +83,7 @@ const DropTarget = ({ data, location, onDrop, onResize }) => {
 const Drop = ({ data }) => {
   const [droppedItems, setDroppedItems] = useState({});
   const [boxSizes, setBoxSizes] = useState({});
+  const [post, setPost] = useState(false);
 
   const onDrop = (id, item) => {
     const newDroppedItem = { [`${id}`]: item };
@@ -96,10 +97,14 @@ const Drop = ({ data }) => {
   };
 
   const onSave = () => {
-    localStorage.setItem("items", JSON.stringify(droppedItems));
-    localStorage.setItem("boxSizes", JSON.stringify(boxSizes));
-    // eslint-disable-next-line
-    location.reload(true);
+    if (!post) {
+      alert("You should drag one of these charts!");
+    } else {
+      localStorage.setItem("items", JSON.stringify(droppedItems));
+      localStorage.setItem("boxSizes", JSON.stringify(boxSizes));
+      // eslint-disable-next-line
+      location.reload(true);
+    }
   };
 
   const resetData = () => {
@@ -121,6 +126,8 @@ const Drop = ({ data }) => {
                 location={index}
                 onDrop={onDrop}
                 onResize={onResize}
+                post={post}
+                setPost={setPost}
               />
             );
           })}
