@@ -13,10 +13,74 @@ const style = {
 };
 const numberOfDrops = [1, 2];
 
-const DropTarget = ({ data, location, onDrop, onResize, post, setPost }) => {
+const Drop = ({ data }) => {
+  const [droppedItems, setDroppedItems] = useState({});
+
+  const [boxSizes, setBoxSizes] = useState({});
+
+  const onDrop = (id, item) => {
+    const newDroppedItem = { [`${id}`]: item };
+    setDroppedItems((prevState) => ({ ...prevState, ...newDroppedItem }));
+  };
+
+  const onResize = (id, size) => {
+    const newBoxSize = { [`${id}`]: size };
+
+    setBoxSizes((prevState) => ({ ...prevState, ...newBoxSize }));
+  };
+
+  const onSave = () => {
+    localStorage.setItem("items", JSON.stringify(droppedItems));
+    localStorage.setItem("boxSizes", JSON.stringify(boxSizes));
+    // eslint-disable-next-line
+    location.reload(true);
+  };
+
+  const resetData = () => {
+    window.localStorage.clear();
+    // eslint-disable-next-line
+    location.reload(true);
+  };
+
+  return (
+    <div className="drop">
+      <div>
+        <h2 className="title">Drag a widget into an open Dashboard slot</h2>
+        <div className="drop__add">
+          {numberOfDrops.map((index) => {
+            return (
+              <DropTarget
+                data={data}
+                key={index}
+                location={index}
+                onDrop={onDrop}
+                onResize={onResize}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="btns-container">
+        <button className="btn back-btn">Back</button>
+        {localStorage.getItem("items") || localStorage.getItem("boxSizes") ? (
+          <button className="btn reset-btn" onClick={resetData}>
+            Reset
+          </button>
+        ) : (
+          <button className="btn submit-btn" onClick={onSave}>
+            Finish
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const DropTarget = ({ data, location, onDrop, onResize }) => {
   const [dropItem, setDropItem] = useState([]);
 
-
+  const [post, setPost] = useState(false);
 
   const [size, setSize] = useState({ width: 400, height: 180 });
 
@@ -75,76 +139,6 @@ const DropTarget = ({ data, location, onDrop, onResize, post, setPost }) => {
             </div>
           )}
         </Resizable>
-      </div>
-    </div>
-  );
-};
-
-const Drop = ({ data }) => {
-  const [droppedItems, setDroppedItems] = useState({});
-  const [boxSizes, setBoxSizes] = useState({});
-  const [post, setPost] = useState(false);
-
-  const onDrop = (id, item) => {
-    const newDroppedItem = { [`${id}`]: item };
-    setDroppedItems((prevState) => ({ ...prevState, ...newDroppedItem }));
-  };
-
-  const onResize = (id, size) => {
-    const newBoxSize = { [`${id}`]: size };
-
-    setBoxSizes((prevState) => ({ ...prevState, ...newBoxSize }));
-  };
-
-  const onSave = () => {
-    if (!post) {
-      alert("You should drag one of these charts!");
-    } else {
-      localStorage.setItem("items", JSON.stringify(droppedItems));
-      localStorage.setItem("boxSizes", JSON.stringify(boxSizes));
-      // eslint-disable-next-line
-      location.reload(true);
-    }
-  };
-
-  const resetData = () => {
-    window.localStorage.clear();
-    // eslint-disable-next-line
-    location.reload(true);
-  };
-
-  return (
-    <div className="drop">
-      <div>
-        <h2 className="title">Drag a widget into an open Dashboard slot</h2>
-        <div className="drop__add">
-          {numberOfDrops.map((index) => {
-            return (
-              <DropTarget
-                data={data}
-                key={index}
-                location={index}
-                onDrop={onDrop}
-                onResize={onResize}
-                post={post}
-                setPost={setPost}
-              />
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="btns-container">
-        <button className="btn back-btn">Back</button>
-        {localStorage.getItem("items") || localStorage.getItem("boxSizes") ? (
-          <button className="btn reset-btn" onClick={resetData}>
-            Reset
-          </button>
-        ) : (
-          <button className="btn submit-btn" onClick={onSave}>
-            Finish
-          </button>
-        )}
       </div>
     </div>
   );
