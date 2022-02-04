@@ -2,14 +2,20 @@
 
 .drop {
   width: 100%;
+  height: 100%;
   margin-left: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
+  &__wrapper {
+    height: 100%;
+  }
+
   &__add {
     @include grid(2, 20px);
     margin-top: 16px;
+    height: 180px;
   }
 
   &__add__item {

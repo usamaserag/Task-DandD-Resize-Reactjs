@@ -18,6 +18,8 @@ const Drop = ({ data }) => {
 
   const [boxSizes, setBoxSizes] = useState({});
 
+  const [isFinish, setIsFinish] = useState(false);
+
   const onDrop = (id, item) => {
     const newDroppedItem = { [`${id}`]: item };
     setDroppedItems((prevState) => ({ ...prevState, ...newDroppedItem }));
@@ -32,19 +34,17 @@ const Drop = ({ data }) => {
   const onSave = () => {
     localStorage.setItem("items", JSON.stringify(droppedItems));
     localStorage.setItem("boxSizes", JSON.stringify(boxSizes));
-    // eslint-disable-next-line
-    location.reload(true);
+    setIsFinish(true);
   };
 
   const resetData = () => {
     window.localStorage.clear();
-    // eslint-disable-next-line
-    location.reload(true);
+    setIsFinish(false);
   };
 
   return (
     <div className="drop">
-      <div>
+      <div className="drop__wrapper">
         <h2 className="title">Drag a widget into an open Dashboard slot</h2>
         <div className="drop__add">
           {numberOfDrops.map((index) => {
@@ -55,15 +55,17 @@ const Drop = ({ data }) => {
                 location={index}
                 onDrop={onDrop}
                 onResize={onResize}
+                isFinish={isFinish}
+                droppedItems={droppedItems}
+                setDroppedItems={setDroppedItems}
               />
             );
           })}
         </div>
       </div>
-
       <div className="btns-container">
         <button className="btn back-btn">Back</button>
-        {localStorage.getItem("items") || localStorage.getItem("boxSizes") ? (
+        {isFinish ? (
           <button className="btn reset-btn" onClick={resetData}>
             Reset
           </button>
@@ -77,7 +79,15 @@ const Drop = ({ data }) => {
   );
 };
 
-const DropTarget = ({ data, location, onDrop, onResize }) => {
+const DropTarget = ({
+  data,
+  location,
+  onDrop,
+  onResize,
+  isFinish,
+  droppedItems,
+  setDroppedItems,
+}) => {
   const [dropItem, setDropItem] = useState([]);
 
   const [post, setPost] = useState(false);
@@ -105,16 +115,23 @@ const DropTarget = ({ data, location, onDrop, onResize }) => {
         location
       ];
       setDropItem(postInLocalStorage);
-      setPost(true);
+      postInLocalStorage && setPost(true);
 
       const boxSize = JSON.parse(localStorage.getItem("boxSizes"))?.[location];
       setSize(boxSize);
     }
-  }, [location, setPost]);
+  }, [location]);
+
+  useEffect(() => {
+    if (!isFinish) {
+      setDroppedItems({});
+      setPost(false);
+    }
+  }, [isFinish, setDroppedItems]);
 
   return (
-    <div>
-      <div className={isOver ? "droping" : ""} ref={drop}>
+    <>
+      <div className={isOver ? "droping" : ""} ref={!isFinish ? drop : null}>
         <Resizable
           style={style}
           defaultSize={{
@@ -140,7 +157,7 @@ const DropTarget = ({ data, location, onDrop, onResize }) => {
           )}
         </Resizable>
       </div>
-    </div>
+    </>
   );
 };
 
